@@ -30,6 +30,12 @@ class UserController {
       return res.status(500).json({ tipo: 3, message: 'erro interno' });
     }
   }
+
+  async update(req, res) {
+    const { userId } = req;
+    console.log(userId);
+    return res.json({ tipo: 0 });
+  }
 }
 
 export default new UserController();
