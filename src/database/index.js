@@ -1,3 +1,6 @@
+/**
+ * Esse arquivo faz a conexão com o banco de dados e carrega todos os dados
+ */
 import Sequelize from 'sequelize';
 
 import User from '../app/models/User';

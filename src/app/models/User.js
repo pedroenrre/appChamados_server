@@ -4,11 +4,15 @@ import bcrypt from 'bcryptjs';
 class User extends Model {
   static init(sequelize) {
     super.init(
-      // Colunas desse objeto
+      /**
+       * Colunas desse objeto
+       * Esse campos não precisam refletir os campos do banco de dados
+       * Devem ser os campos que o usuário deve preencher.
+       *  */
       {
         name: Sequelize.STRING,
         email: Sequelize.STRING,
-        password: Sequelize.VIRTUAL,
+        password: Sequelize.VIRTUAL, // é virtual pq a senha que é salva no banco será criptografada
         password_hash: Sequelize.STRING,
       },
       {
