@@ -1,6 +1,8 @@
 import User from '../models/User';
 
 class UserController {
+  async index(req, res){}
+  async show(req, res){}
   async storeNewUser(req, res) {
     /**
      * tipo 0 => sucesso
@@ -58,12 +60,15 @@ class UserController {
       }
 
       user.update(req.body);
+      user.
 
       return res.json({ tipo: 0, user: { name, email } });
     } catch (err) {
       return res.status(500).json({ tipo: 10, message: 'erro interno' });
     }
   }
+
+  async delete(req, res){}
 }
 
 export default new UserController();
