@@ -3,13 +3,15 @@ import User from '../models/User';
 
 class UserController {
   async index(req, res) {}
+
   async show(req, res) {}
+
   async storeNewUser(req, res) {
     /**
-     * tipo 0 => sucesso
-     * tipo 1 => parametros insuficientes
-     * tipo 2 => usuario já existe
-     * tipo 3 => erro interno
+     * error 0 => sucesso
+     * error 1 => parametros insuficientes
+     * error 2 => usuario já existe
+     * error 3 => erro interno
      */
 
     const schema = Yup.object().shape({
@@ -21,7 +23,7 @@ class UserController {
     if (!(await schema.isValid(req.body))) {
       return res
         .status(400)
-        .json({ tipo: 1, message: 'parametros insuficientes' });
+        .json({ error: 1, message: 'parametros insuficientes' });
     }
 
     try {
@@ -31,13 +33,13 @@ class UserController {
       if (userExists) {
         return res
           .status(400)
-          .json({ tipo: 2, message: 'esse usuario já existe' });
+          .json({ error: 2, message: 'esse usuario já existe' });
       }
 
-      await User.create(req.body);
-      return res.json({ tipo: 0, user: { name, email } });
+      const newUser = await User.create(req.body);
+      return res.json({ tipo: 0, user: newUser });
     } catch (err) {
-      return res.status(500).json({ tipo: 3, message: 'erro interno' });
+      return res.status(500).json({ error: 3, message: 'erro interno' });
     }
   }
 
@@ -59,7 +61,7 @@ class UserController {
     if (!(await schema.isValid(req.body))) {
       return res
         .status(400)
-        .json({ tipo: 1, message: 'parametros insuficientes' });
+        .json({ error: 1, message: 'parametros insuficientes' });
     }
     const { userId } = req;
 
@@ -85,7 +87,7 @@ class UserController {
 
       return res.json({ tipo: 0, user: { name, email } });
     } catch (err) {
-      return res.status(500).json({ tipo: 10, message: 'erro interno' });
+      return res.status(500).json({ error: 10, message: 'erro interno' });
     }
   }
 
