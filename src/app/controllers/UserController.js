@@ -1,8 +1,21 @@
 import * as Yup from 'yup';
 import User from '../models/User';
+import Department from '../models/Department';
 
 class UserController {
-  async index(req, res) {}
+  async index(req, res) {
+    const users = await User.findAll({
+      attributes: ['id', 'name', 'email', 'updatedAt'],
+      include: [
+        {
+          model: Department,
+          attributes: ['id', 'name'],
+        },
+      ],
+    });
+
+    return res.json(users);
+  }
 
   async show(req, res) {}
 

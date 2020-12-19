@@ -14,6 +14,7 @@ routes.post('/user/session', SessionController.store);
 routes.use(authMiddleware);
 
 routes.post('/user/update', UserController.update);
+routes.get('/user/list', UserController.index);
 
 // Rotas para cada departamento
 routes.post('/department/store', DepartmentController.store);
