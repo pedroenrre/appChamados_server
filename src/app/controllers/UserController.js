@@ -17,7 +17,9 @@ class UserController {
     return res.json(users);
   }
 
-  async show(req, res) {}
+  async show(req, res) {
+    const user = await User.findAll({ where: {} });
+  }
 
   async storeNewUser(req, res) {
     /**

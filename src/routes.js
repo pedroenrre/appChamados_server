@@ -18,5 +18,6 @@ routes.get('/user/list', UserController.index);
 
 // Rotas para cada departamento
 routes.post('/department/store', DepartmentController.store);
+routes.get('/department/index', DepartmentController.index);
 
 export default routes;

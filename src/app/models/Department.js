@@ -13,6 +13,10 @@ class Department extends Model {
 
     return this;
   }
+
+  static associate(models) {
+    this.hasMany(models.User, { as: 'users' });
+  }
 }
 
 export default Department;

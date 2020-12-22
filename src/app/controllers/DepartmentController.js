@@ -1,8 +1,23 @@
 import * as Yup from 'yup';
 
 import Department from '../models/Department';
+import User from '../models/User';
 
 class DepartmentController {
+  async index(req, res) {
+    const departament = await Department.findAll({
+      attributes: ['id', 'name'],
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    return res.json(departament);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
