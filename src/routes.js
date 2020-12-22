@@ -3,6 +3,7 @@ import { Router } from 'express';
 import SessionController from './app/controllers/SessionController';
 import UserController from './app/controllers/UserController';
 import DepartmentController from './app/controllers/DepartmentController';
+import ServiceController from './app/controllers/ServiceController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -19,5 +20,8 @@ routes.get('/user/list', UserController.index);
 // Rotas para cada departamento
 routes.post('/department/store', DepartmentController.store);
 routes.get('/department/index', DepartmentController.index);
+
+// Rotas para serviços
+routes.post('/service/store', ServiceController.store);
 
 export default routes;
