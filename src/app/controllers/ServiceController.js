@@ -3,6 +3,12 @@ import Service from '../models/Service';
 import User from '../models/User';
 
 class ServiceController {
+  async index(req, res) {
+    const services = await Service.findAll();
+
+    return res.json(services);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       description: Yup.string().required(),
@@ -13,9 +19,7 @@ class ServiceController {
         .status(400)
         .json({ error: 1, message: 'parametros insuficientes' });
     }
-
     const user = await User.findByPk(req.userId);
-
     if (!user) {
       return res
         .status(400)

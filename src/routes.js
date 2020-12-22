@@ -23,5 +23,6 @@ routes.get('/department/index', DepartmentController.index);
 
 // Rotas para serviços
 routes.post('/service/store', ServiceController.store);
+routes.get('/service/index', ServiceController.index);
 
 export default routes;

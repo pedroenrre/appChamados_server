@@ -15,8 +15,11 @@ class Department extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.User, { as: 'users' });
-    this.hasMany(models.Service, { as: 'services' });
+    this.hasMany(models.User, { foreignKey: 'department_id', as: 'users' });
+    this.hasMany(models.Service, {
+      foreignKey: 'department_id',
+      as: 'services',
+    });
   }
 }
 

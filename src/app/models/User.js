@@ -30,7 +30,7 @@ class User extends Model {
 
   static associate(models) {
     this.belongsTo(models.Department, { foreignKey: 'department_id' });
-    this.hasMany(models.Service, { as: 'services' });
+    this.hasMany(models.Service, { foreignKey: 'user_id', as: 'services' });
   }
 
   checkPassword(password) {
