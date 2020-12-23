@@ -6,6 +6,7 @@ class Service extends Model {
       {
         description: Sequelize.STRING,
         status: Sequelize.INTEGER,
+        service_done: Sequelize.STRING,
       },
       {
         sequelize,

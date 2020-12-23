@@ -5,6 +5,7 @@ class Department extends Model {
     super.init(
       {
         name: Sequelize.STRING,
+        manager_department: Sequelize.BOOLEAN,
       },
       {
         sequelize,
