@@ -14,6 +14,7 @@ class User extends Model {
         email: Sequelize.STRING,
         password: Sequelize.VIRTUAL, // é virtual pq a senha que é salva no banco será criptografada
         password_hash: Sequelize.STRING,
+        department_id: Sequelize.INTEGER,
       },
       {
         sequelize,

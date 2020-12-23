@@ -4,17 +4,20 @@ import Department from '../models/Department';
 
 class UserController {
   async index(req, res) {
-    const users = await User.findAll({
-      attributes: ['id', 'name', 'email', 'updatedAt'],
-      include: [
-        {
-          model: Department,
-          attributes: ['id', 'name'],
-        },
-      ],
-    });
-
-    return res.json(users);
+    try {
+      const users = await User.findAll({
+        attributes: ['id', 'name', 'email', 'updatedAt'],
+        include: [
+          {
+            model: Department,
+            attributes: ['id', 'name'],
+          },
+        ],
+      });
+      return res.json({ tipo: 0, users });
+    } catch (error) {
+      return res.status(500).json({ error: 3, message: 'erro interno' });
+    }
   }
 
   async show(req, res) {
@@ -33,6 +36,7 @@ class UserController {
       name: Yup.string().required(),
       email: Yup.string().email().required(),
       password: Yup.string().required().min(6),
+      department_id: Yup.number().integer().strict().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
