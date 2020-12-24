@@ -10,7 +10,8 @@ class DepartmentController {
       include: [
         {
           model: User,
-          attributes: ['name'],
+          attributes: ['name', 'email'],
+          as: 'users',
         },
       ],
     });

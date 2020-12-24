@@ -6,6 +6,7 @@ import DepartmentController from './app/controllers/DepartmentController';
 import ServiceController from './app/controllers/ServiceController';
 
 import authMiddleware from './app/middlewares/auth';
+import managerAuthMiddleware from './app/middlewares/managerAuth';
 
 const routes = new Router();
 
@@ -19,7 +20,11 @@ routes.get('/user/list', UserController.index);
 
 // Rotas para cada departamento
 routes.post('/department/store', DepartmentController.store);
-routes.get('/department/index', DepartmentController.index);
+routes.get(
+  '/department/index',
+  managerAuthMiddleware,
+  DepartmentController.index
+);
 
 // Rotas para serviços
 routes.post('/service/store', ServiceController.store);

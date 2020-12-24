@@ -1,3 +1,7 @@
+/**
+ * Esse middleware verifica se o token enviado é válido
+ */
+
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 
