@@ -14,6 +14,7 @@ class User extends Model {
         email: Sequelize.STRING,
         password: Sequelize.VIRTUAL, // é virtual pq a senha que é salva no banco será criptografada
         password_hash: Sequelize.STRING,
+        department_id: Sequelize.INTEGER,
       },
       {
         sequelize,
@@ -26,6 +27,11 @@ class User extends Model {
       }
     });
     return this;
+  }
+
+  static associate(models) {
+    this.belongsTo(models.Department, { foreignKey: 'department_id' });
+    this.hasMany(models.Service, { foreignKey: 'user_id', as: 'services' });
   }
 
   checkPassword(password) {

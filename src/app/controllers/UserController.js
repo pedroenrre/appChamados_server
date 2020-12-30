@@ -1,50 +1,93 @@
+import * as Yup from 'yup';
 import User from '../models/User';
+import Department from '../models/Department';
 
 class UserController {
-  async index(req, res){}
-  async show(req, res){}
+  async index(req, res) {
+    try {
+      const users = await User.findAll({
+        attributes: ['id', 'name', 'email', 'updatedAt'],
+        include: [
+          {
+            model: Department,
+            attributes: ['id', 'name'],
+          },
+        ],
+      });
+      return res.json({ tipo: 0, users });
+    } catch (error) {
+      return res.status(500).json({ error: 3, message: 'erro interno' });
+    }
+  }
+
+  async show(req, res) {
+    const user = await User.findAll({ where: {} });
+  }
+
   async storeNewUser(req, res) {
     /**
-     * tipo 0 => sucesso
-     * tipo 1 => parametros insuficientes
-     * tipo 2 => usuario já existe
-     * tipo 3 => erro interno
+     * error 0 => sucesso
+     * error 1 => parametros insuficientes
+     * error 2 => usuario já existe
+     * error 3 => erro interno
      */
 
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string().email().required(),
+      password: Yup.string().required().min(6),
+      department_id: Yup.number().integer().strict().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ error: 1, message: 'parametros insuficientes' });
+    }
+
     try {
-      const { name, email, password } = req.body;
-      if (!name || !email || !password) {
-        return res
-          .status(401)
-          .json({ tipo: 1, message: 'paramentros insuficientes' });
-      }
+      const { name, email } = req.body;
 
       const userExists = await User.findOne({ where: { email } });
       if (userExists) {
         return res
           .status(400)
-          .json({ tipo: 2, message: 'esse usuario já existe' });
+          .json({ error: 2, message: 'esse usuario já existe' });
       }
 
-      await User.create(req.body);
-      return res.json({ tipo: 0, user: { name, email } });
+      const newUser = await User.create(req.body);
+      return res.json({ tipo: 0, user: newUser });
     } catch (err) {
-      return res.status(500).json({ tipo: 3, message: 'erro interno' });
+      return res.status(500).json({ error: 3, message: 'erro interno' });
     }
   }
 
   async update(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string().email().required(),
+      password: Yup.string().min(6),
+      oldPassword: Yup.string()
+        .min(6)
+        .when('password', (password, field) =>
+          password ? field.required() : field
+        ),
+      confirmPassword: Yup.string().when('password', (password, field) =>
+        password ? field.required().oneOf([Yup.ref('password')]) : field
+      ),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ error: 1, message: 'parametros insuficientes' });
+    }
     const { userId } = req;
 
     const user = await User.findByPk(userId);
 
     try {
       const { name, email, password, oldPassword } = req.body;
-      if (!name || name === '' || !email || email === '') {
-        return res
-          .status(401)
-          .json({ error: 1, message: 'paramentros insuficientes' });
-      }
 
       if (email !== user.email) {
         const userExists = await User.findOne({ where: { email } });
@@ -60,15 +103,14 @@ class UserController {
       }
 
       user.update(req.body);
-      user.
 
       return res.json({ tipo: 0, user: { name, email } });
     } catch (err) {
-      return res.status(500).json({ tipo: 10, message: 'erro interno' });
+      return res.status(500).json({ error: 10, message: 'erro interno' });
     }
   }
 
-  async delete(req, res){}
+  async delete(req, res) {}
 }
 
 export default new UserController();
