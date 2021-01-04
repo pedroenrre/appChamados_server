@@ -13,7 +13,7 @@ const routes = new Router();
 routes.post('/user/new_user', UserController.storeNewUser);
 routes.post('/user/session', SessionController.store);
 
-routes.use(authMiddleware);
+// routes.use(authMiddleware);
 
 routes.post('/user/update', UserController.update);
 routes.get('/user/list', UserController.index);

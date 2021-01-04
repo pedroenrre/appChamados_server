@@ -22,6 +22,7 @@ class DepartmentController {
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
+      manager_department: Yup.boolean(),
     });
 
     if (!(await schema.isValid(req.body))) {
