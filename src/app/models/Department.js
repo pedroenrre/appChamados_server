@@ -21,6 +21,10 @@ class Department extends Model {
       foreignKey: 'department_id',
       as: 'services',
     });
+    this.hasMany(models.MaterialItem, {
+      foreignKey: 'department_id',
+      as: 'materials',
+    });
   }
 }
 

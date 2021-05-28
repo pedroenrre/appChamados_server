@@ -6,10 +6,12 @@ import Sequelize from 'sequelize';
 import User from '../app/models/User';
 import Department from '../app/models/Department';
 import Service from '../app/models/Service';
+import Material from '../app/models/Material';
+import MaterialItem from '../app/models/MaterialItem';
 
 import databaseConfig from '../config/database';
 
-const models = [User, Department, Service];
+const models = [User, Department, Service, Material, MaterialItem];
 
 class Database {
   constructor() {
